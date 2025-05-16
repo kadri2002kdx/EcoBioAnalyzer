@@ -9,6 +9,28 @@ import path from "path";
 import fs from "fs";
 import multer from "multer";
 import { z } from "zod";
+// Function to simulate ecosystem behavior
+function simulateEcosystem(params: { initialValue: number; annualChangeRate: number; years: number }) {
+  const { initialValue, annualChangeRate, years = 30 } = params;
+  
+  const values: number[] = [initialValue];
+  const yearLabels: number[] = Array.from({ length: years + 1 }, (_, i) => i);
+  
+  for (let year = 1; year <= years; year++) {
+    // Calculate new value using the annual change rate
+    let newValue = values[values.length - 1] * (1 + annualChangeRate);
+    
+    // Constrain the value between 0 and 1
+    newValue = Math.min(Math.max(newValue, 0), 1);
+    
+    values.push(newValue);
+  }
+  
+  return {
+    values,
+    years: yearLabels
+  };
+}
 
 // Setup file upload directory
 const uploadDir = path.join(process.cwd(), "uploads");
@@ -302,34 +324,96 @@ async function runEnvironmentalSimulation(ecosystemId: number, parameters: any, 
   // Simulate processing time
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Generate plausible results based on input parameters
-  const vegetationCover = Math.floor(50 + Math.random() * 40);
-  const biodiversity = Math.floor(30 + Math.random() * 30);
-  const soilQuality = Math.floor(60 + Math.random() * 30);
-  const sustainability = Math.floor(70 + Math.random() * 25);
+  // Calculate initial value based on parameters
+  const calculateInitialValue = () => {
+    // Base value affected by ecosystem diversity
+    let value = 0.5 + (parameters.plantSpecies.length * 0.05);
+    
+    // Adjust for rainfall (optimal range is 400-800mm)
+    const rainfall = parameters.rainfall;
+    if (rainfall < 300) {
+      value -= 0.2; // Too dry
+    } else if (rainfall > 900) {
+      value -= 0.1; // Too wet
+    } else if (rainfall >= 400 && rainfall <= 800) {
+      value += 0.1; // Optimal
+    }
+    
+    // Adjust for temperature (optimal range is 15-30°C)
+    const temperature = parameters.temperature;
+    if (temperature < 10) {
+      value -= 0.15; // Too cold
+    } else if (temperature > 35) {
+      value -= 0.2; // Too hot
+    } else if (temperature >= 15 && temperature <= 30) {
+      value += 0.1; // Optimal
+    }
+    
+    // Adjust for wind speed (lower is better for most ecosystems)
+    const windSpeed = parameters.windSpeed;
+    if (windSpeed > 40) {
+      value -= 0.15; // High wind stress
+    } else if (windSpeed < 15) {
+      value += 0.05; // Low wind stress
+    }
+    
+    // Ensure value is between 0.1 and 0.9
+    return Math.max(0.1, Math.min(0.9, value));
+  };
   
-  // Adjust based on parameters
-  const vegetationTrend = Math.random() > 0.7 ? -Math.floor(Math.random() * 10) : Math.floor(Math.random() * 15);
-  const biodiversityTrend = parameters.plantSpecies.length > 2 ? Math.floor(Math.random() * 12) : -Math.floor(Math.random() * 8);
-  const soilQualityTrend = Math.random() > 0.6 ? -Math.floor(Math.random() * 10) : Math.floor(Math.random() * 10);
-  const sustainabilityTrend = (vegetationTrend + biodiversityTrend + soilQualityTrend) / 3;
+  // Calculate annual change rate based on parameters
+  const calculateChangeRate = () => {
+    // Base change rate
+    let changeRate = 0.01;
+    
+    // Adjust based on ecosystem parameters
+    const plantSpeciesCount = parameters.plantSpecies.length;
+    if (plantSpeciesCount > 5) {
+      changeRate += 0.02; // Higher biodiversity leads to better resilience
+    } else if (plantSpeciesCount < 2) {
+      changeRate -= 0.03; // Low biodiversity leads to ecosystem degradation
+    }
+    
+    // Adjust for extreme conditions
+    const rainfall = parameters.rainfall;
+    const temperature = parameters.temperature;
+    if ((rainfall < 200 || rainfall > 1000) || (temperature < 5 || temperature > 40)) {
+      changeRate -= 0.04; // Extreme conditions lead to degradation
+    }
+    
+    return changeRate;
+  };
   
+  // Calculate initial ecosystem value and change rate
+  const initialValue = calculateInitialValue();
+  const annualChangeRate = calculateChangeRate();
+  
+  // Run simulation for specified duration
+  const simParams = { initialValue, annualChangeRate, years: duration };
+  const simulation = simulateEcosystem(simParams);
+  
+  // Calculate impact scores
+  const finalValue = simulation.values[simulation.values.length - 1];
+  const initialSimValue = simulation.values[0];
+  const trend = finalValue - initialSimValue;
+  
+  // Convert to percentage values for frontend
   return {
     vegetationCover: {
-      value: vegetationCover,
-      trend: vegetationTrend
+      value: Math.round((finalValue * 0.9 + 0.1) * 100), // Scale from 10-100%
+      trend: Math.round(trend * 100)
     },
     biodiversity: {
-      value: biodiversity,
-      trend: biodiversityTrend
+      value: Math.round((finalValue * 0.8 + 0.2) * 100), // Scale from 20-100%
+      trend: Math.round(trend * 120) // Biodiversity changes more dramatically
     },
     soilQuality: {
-      value: soilQuality,
-      trend: soilQualityTrend
+      value: Math.round((finalValue * 0.7 + 0.3) * 100), // Scale from 30-100%
+      trend: Math.round(trend * 80) // Soil changes more slowly
     },
     sustainability: {
-      value: sustainability,
-      trend: sustainabilityTrend
+      value: Math.round(finalValue * 100),
+      trend: Math.round(trend * 150) // Sustainability is more sensitive
     }
   };
 }
