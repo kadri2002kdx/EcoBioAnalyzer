@@ -312,7 +312,7 @@ export const translations: Record<Language, any> = {
       }
     },
     header: {
-      title: "Système Écologique Intelligent",
+      title: "Eco DZ",
       analysis: "Analyse",
       database: "Base de Données",
       simulation: "Simulation",
@@ -520,7 +520,7 @@ export const translations: Record<Language, any> = {
       }
     },
     footer: {
-      title: "Système Écologique Intelligent",
+      title: "Eco DZ",
       description: "Plateforme numérique pour analyser, surveiller et améliorer les écosystèmes en Algérie en utilisant l'intelligence artificielle et l'analyse biologique.",
       quickLinks: {
         title: "Liens Rapides",
@@ -543,7 +543,7 @@ export const translations: Record<Language, any> = {
         description: "Recevez les dernières nouvelles et mises à jour sur le projet et l'environnement algérien.",
         emailPlaceholder: "Email"
       },
-      copyright: "© 2023 Système Écologique Intelligent. Tous droits réservés.",
+      copyright: "© 2023 Eco DZ. Tous droits réservés.",
       privacy: "Politique de Confidentialité",
       terms: "Conditions d'Utilisation",
       cookies: "Politique de Cookies"
