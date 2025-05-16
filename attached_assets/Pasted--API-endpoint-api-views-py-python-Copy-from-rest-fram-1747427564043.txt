@@ -1,0 +1,147 @@
+ب) إنشاء تطبيق API مع endpoint لرفع الصورة وتحليلها
+في ملف api/views.py:
+
+python
+Copy
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+import tensorflow as tf
+from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input, decode_predictions
+from tensorflow.keras.preprocessing import image
+import numpy as np
+import tempfile
+
+# تحميل نموذج MobileNetV2 مرة واحدة عند بدء السيرفر
+model = MobileNetV2(weights='imagenet')
+
+class ImageAnalyzeView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, format=None):
+        file_obj = request.FILES.get('image')
+        if not file_obj:
+            return Response({"error": "No image uploaded"}, status=400)
+
+        # حفظ الصورة مؤقتًا
+        with tempfile.NamedTemporaryFile(delete=True) as tmp:
+            for chunk in file_obj.chunks():
+                tmp.write(chunk)
+            tmp.flush()
+
+            # تحميل الصورة وتحليلها
+            img = image.load_img(tmp.name, target_size=(224, 224))
+            x = image.img_to_array(img)
+            x = np.expand_dims(x, axis=0)
+            x = preprocess_input(x)
+
+            preds = model.predict(x)
+            decoded = decode_predictions(preds, top=3)[0]
+            results = [{"class": cls, "description": desc, "score": float(score)} for (cls, desc, score) in decoded]
+
+        return Response({"predictions": results})
+ج) إضافة المسار في api/urls.py:
+python
+Copy
+from django.urls import path
+from .views import ImageAnalyzeView
+
+urlpatterns = [
+    path('analyze-image/', ImageAnalyzeView.as_view(), name='analyze-image'),
+]
+وفي backend_project/urls.py:
+
+python
+Copy
+from django.urls import path, include
+
+urlpatterns = [
+    path('api/', include('api.urls')),
+]
+2. إعداد Frontend (React)
+أ) صفحة لرفع الصورة وإرسالها للـ API
+في ملف frontend/src/App.js:
+
+jsx
+Copy
+import React, { useState } from 'react';
+
+function App() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [predictions, setPredictions] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]);
+    setPredictions(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedImage) return alert('Please select an image');
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('image', selectedImage);
+
+    try {
+      const res = await fetch('http://127.0.0.1:8000/api/analyze-image/', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      setPredictions(data.predictions);
+    } catch (error) {
+      alert('Error analyzing image');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>رفع صورة النبات لتحليلها</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <button type="submit" disabled={loading}>
+          {loading ? 'جار التحليل...' : 'حلل الصورة'}
+        </button>
+      </form>
+
+      {predictions && (
+        <div>
+          <h3>النتائج:</h3>
+          <ul>
+            {predictions.map((pred, index) => (
+              <li key={index}>
+                {pred.description} (التصنيف: {pred.class}) - الدقة: {(pred.score * 100).toFixed(2)}%
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+3. تشغيل المشروع
+شغل Backend:
+
+bash
+Copy
+python manage.py runserver
+شغل Frontend:
+
+bash
+Copy
+npm start
+افتح المتصفح على http://localhost:3000
+
+4. ملاحظات
+هذا مثال عام لتحليل الصور باستخدام نموذج ImageNet، ليس مخصصًا للنباتات فقط لكنه يوضح طريقة العمل.
+
+لتخصيصه للنباتات، تحتاج تدريب نموذج خاص أو استخدام API خارجي متخصص.
+
+تأكد من تفعيل CORS في Django إذا أردت ربط الواجهة بالخادم على دومينات مختلفة.
+
