@@ -12,19 +12,19 @@ export const translations: Record<Language, any> = {
         description: "قم بتحليل النباتات والتربة باستخدام الذكاء الاصطناعي للحصول على تقييم دقيق وتوصيات للتحسين"
       },
       database: {
-        title: "قاعدة البيانات الإيكولوجية - النظام البيئي الذكي",
+        title: "قاعدة البيانات الإيكولوجية - Eco DZ",
         description: "استكشف قاعدة بياناتنا الشاملة للنباتات والتربة والأنظمة البيئية في الجزائر"
       },
       simulation: {
-        title: "المحاكاة البيئية - النظام البيئي الذكي",
+        title: "المحاكاة البيئية - Eco DZ",
         description: "جرب المحاكاة البيئية وتوقع تأثير التغييرات على النظام البيئي المحلي"
       },
       sensor: {
-        title: "المسبار البيولوجي - النظام البيئي الذكي",
+        title: "المسبار البيولوجي - Eco DZ",
         description: "تعرف على المسبار البيولوجي لتحليل النسغ النباتي ومكونات التربة بدقة عالية"
       },
       about: {
-        title: "من نحن - النظام البيئي الذكي",
+        title: "من نحن - Eco DZ",
         description: "تعرف على فريقنا وأهدافنا لتحسين البيئة والزراعة المستدامة في الجزائر"
       }
     },
@@ -287,27 +287,27 @@ export const translations: Record<Language, any> = {
   fr: {
     seo: {
       home: {
-        title: "Système Écologique Intelligent - Plateforme d'analyse des plantes, sols et environnements",
+        title: "Eco DZ - Plateforme d'analyse des plantes, sols et environnements",
         description: "Plateforme intégrée pour l'analyse des plantes, sols et écosystèmes en Algérie utilisant l'intelligence artificielle et l'analyse biologique"
       },
       analysis: {
-        title: "Analyse des Plantes et Sols - Système Écologique Intelligent",
+        title: "Analyse des Plantes et Sols - Eco DZ",
         description: "Analysez les plantes et les sols à l'aide de l'intelligence artificielle pour obtenir une évaluation précise et des recommandations d'amélioration"
       },
       database: {
-        title: "Base de Données Écologique - Système Écologique Intelligent",
+        title: "Base de Données Écologique - Eco DZ",
         description: "Explorez notre base de données complète sur les plantes, sols et écosystèmes en Algérie"
       },
       simulation: {
-        title: "Simulation Environnementale - Système Écologique Intelligent",
+        title: "Simulation Environnementale - Eco DZ",
         description: "Expérimentez avec la simulation environnementale et prédisez l'impact des changements sur l'écosystème local"
       },
       sensor: {
-        title: "Sonde Biologique - Système Écologique Intelligent",
+        title: "Sonde Biologique - Eco DZ",
         description: "Découvrez la sonde biologique pour analyser la sève des plantes et les composants du sol avec haute précision"
       },
       about: {
-        title: "À Propos - Système Écologique Intelligent",
+        title: "À Propos - Eco DZ",
         description: "Découvrez notre équipe et nos objectifs pour améliorer l'environnement et l'agriculture durable en Algérie"
       }
     },
