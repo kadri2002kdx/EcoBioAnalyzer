@@ -7,7 +7,7 @@ export default function Hero() {
   
   return (
     <section className="relative h-96 overflow-hidden" style={{
-      backgroundImage: "url('https://pixabay.com/get/g6a5c5bac4cf9d3f88e4904b61703f67774726964726fd62aac1bb7b2647059ebabc73a05737967b4eb2c7900a40ef4a278bcaf3ef5d5207eb17f54c9b7dfb076_1280.jpg')",
+      backgroundImage: "url('/images/landscape.png')",
       backgroundSize: "cover",
       backgroundPosition: "center"
     }}>

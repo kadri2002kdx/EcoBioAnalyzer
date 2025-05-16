@@ -16,7 +16,7 @@ export default function Features() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Feature 1 */}
           <FeatureCard
-            icon={<ImageUp className="text-primary text-2xl" />}
+            icon={<img src="/images/plant-analysis-icon.png" alt="Plant Analysis" className="w-10 h-10" />}
             title={t('features.imageAnalysis.title')}
             description={t('features.imageAnalysis.description')}
             linkText={t('features.imageAnalysis.cta')}
@@ -27,7 +27,7 @@ export default function Features() {
           
           {/* Feature 2 */}
           <FeatureCard
-            icon={<Usb className="text-secondary text-2xl" />}
+            icon={<img src="/images/sensor-icon.svg" alt="Bio Sensor" className="w-10 h-10" />}
             title={t('features.bioSensor.title')}
             description={t('features.bioSensor.description')}
             linkText={t('features.bioSensor.cta')}
@@ -38,7 +38,7 @@ export default function Features() {
           
           {/* Feature 3 */}
           <FeatureCard
-            icon={<SunMedium className="text-accent text-2xl" />}
+            icon={<img src="/images/simulation-icon.svg" alt="Environmental Simulation" className="w-10 h-10" />}
             title={t('features.simulation.title')}
             description={t('features.simulation.description')}
             linkText={t('features.simulation.cta')}
@@ -66,7 +66,7 @@ function FeatureCard({ icon, iconBgClass, title, description, linkText, linkHref
   return (
     <Card className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300">
       <CardContent className="p-0">
-        <div className={`w-14 h-14 ${iconBgClass} rounded-full flex items-center justify-center mb-4`}>
+        <div className={`w-16 h-16 ${iconBgClass} rounded-full flex items-center justify-center mb-4`}>
           {icon}
         </div>
         <h3 className="text-xl font-bold mb-3 font-cairo">{title}</h3>
