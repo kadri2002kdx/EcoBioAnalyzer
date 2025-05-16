@@ -4,11 +4,11 @@ export const translations: Record<Language, any> = {
   ar: {
     seo: {
       home: {
-        title: "النظام البيئي الذكي - منصة تحليل النباتات والتربة والبيئة",
+        title: "Eco DZ - منصة تحليل النباتات والتربة والبيئة",
         description: "منصة متكاملة لتحليل النباتات والتربة والأنظمة البيئية في الجزائر باستخدام الذكاء الاصطناعي والتحليل البيولوجي"
       },
       analysis: {
-        title: "تحليل النباتات والتربة - النظام البيئي الذكي",
+        title: "تحليل النباتات والتربة - Eco DZ",
         description: "قم بتحليل النباتات والتربة باستخدام الذكاء الاصطناعي للحصول على تقييم دقيق وتوصيات للتحسين"
       },
       database: {
@@ -29,7 +29,7 @@ export const translations: Record<Language, any> = {
       }
     },
     header: {
-      title: "النظام البيئي الذكي",
+      title: "Eco DZ",
       analysis: "التحليل",
       database: "قاعدة البيانات",
       simulation: "المحاكاة البيئية",
@@ -237,7 +237,7 @@ export const translations: Record<Language, any> = {
       }
     },
     footer: {
-      title: "النظام البيئي الذكي",
+      title: "Eco DZ",
       description: "منصة رقمية لتحليل ومراقبة وتحسين النظم البيئية في الجزائر باستخدام تقنيات الذكاء الاصطناعي والتحليل البيولوجي.",
       quickLinks: {
         title: "روابط سريعة",
@@ -260,7 +260,7 @@ export const translations: Record<Language, any> = {
         description: "احصل على آخر الأخبار والتحديثات حول المشروع والبيئة الجزائرية.",
         emailPlaceholder: "البريد الإلكتروني"
       },
-      copyright: "© 2023 النظام البيئي الذكي. جميع الحقوق محفوظة.",
+      copyright: "© 2023 Eco DZ. جميع الحقوق محفوظة.",
       privacy: "سياسة الخصوصية",
       terms: "شروط الاستخدام",
       cookies: "سياسة ملفات تعريف الارتباط"
