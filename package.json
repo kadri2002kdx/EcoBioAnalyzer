@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://github.com/kadri2002kdx",
+  "homepage": "https://kadri2002kdx.github.io/EcoBioAnalyzer",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
@@ -11,7 +11,7 @@
     "check": "tsc",
     "db:push": "drizzle-kit push",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist -r https://github.com/kadri2002kdx/EcoBioAnalyzer.git"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
